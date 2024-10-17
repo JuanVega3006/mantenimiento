@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Motor AC</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <header>
+        <h1>Dashboard de Mantenimiento Predictivo</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Información del Motor</a></li>
+            <li><a href="#">Historial</a></li>
+            <li><a href="#" id="logout">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="motor-info">
+            <h2>Estado del Motor</h2>
+            <p><strong>Voltaje:</strong> <span id="voltage">--</span> V</p>
+            <p><strong>Corriente:</strong> <span id="current">--</span> A</p>
+            <p><strong>Temperatura:</strong> <span id="temperature">--</span> °C</p>
+        </section>
+
+        <section class="alerts">
+            <h2>Alertas del Sistema</h2>
+            <div id="alert-container">
+                <p>Sin alertas por el momento.</p>
+            </div>
+        </section>
+
+        <section class="history">
+            <h2>Historial de Mantenimiento</h2>
+            <ul id="history-list"></ul>
+        </section>
+    </main>
+
+    <script type="module">
+        // Simulación de datos del motor
+        function generarDatosMotor() {
+            const voltage = (220 + Math.random() * 10).toFixed(2); // Voltaje simulado
+            const current = (5 + Math.random()).toFixed(2); // Corriente simulada
+            const temperature = (70 + Math.random() * 10).toFixed(1); // Temperatura simulada
+
+            document.getElementById('voltage').textContent = voltage;
+            document.getElementById('current').textContent = current;
+            document.getElementById('temperature').textContent = temperature;
+
+            verificarAlertas(voltage, current, temperature);
+        }
+
+        // Simulación de alertas
+        function verificarAlertas(voltage, current, temperature) {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = '<p>Sin alertas por el momento.</p>';
+
+            if (temperature > 75) {
+                alertContainer.innerHTML = <p><strong>Alerta:</strong> Alta temperatura detectada (${temperature} °C)</p>;
+            } else if (voltage > 230) {
+                alertContainer.innerHTML = <p><strong>Alerta:</strong> Voltaje elevado (${voltage} V)</p>;
+            }
+        }
+
+        // Simulación de historial
+        function generarHistorial() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+
+            const logs = [
+                'Mantenimiento realizado el 10/10/2024',
+                'Cambio de rodamientos el 01/09/2024',
+                'Revisión general el 05/08/2024'
+            ];
+
+            logs.forEach(log => {
+                const historyItem = document.createElement('li');
+                historyItem.textContent = log;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // Actualizar los datos cada 5 segundos
+        setInterval(generarDatosMotor, 5000);
+        generarHistorial();
+
+        // Cerrar sesión
+        document.getElementById('logout').addEventListener('click', () => {
+            alert('Cerrando sesión...');
+            window.location.href = 'signin.html';
+        });
+    </script>
+
+    <footer>
+        <p>&copy; 2024 MaqTenimiento. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
